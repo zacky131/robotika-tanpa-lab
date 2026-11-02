@@ -85,12 +85,16 @@ python3 -c "import cv2" 2>/dev/null && ok "Python OpenCV" || awas "OpenCV untuk 
 if command -v ros2 >/dev/null 2>&1; then
   ros2 run demo_nodes_py talker >/dev/null 2>&1 &
   PID_TALKER=$!
-  if timeout 10 ros2 topic echo /chatter --once >/dev/null 2>&1; then
+  # Tipe pesan ditulis eksplisit agar echo menunggu talker (tanpa tipe, echo langsung
+  # gagal jika talker belum muncul). 20 detik: discovery bisa lambat di laptop pelan.
+  if timeout 20 ros2 topic echo /chatter std_msgs/msg/String --once >/dev/null 2>&1; then
     ok "Komunikasi ROS 2 (talker → /chatter) berjalan"
   else
-    gagal "Tidak ada pesan di /chatter dalam 10 detik" "Coba: export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST, atau cek firewall (Modul 0, Pemecahan Masalah)."
+    gagal "Tidak ada pesan di /chatter dalam 20 detik" "Coba: export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST, atau cek firewall (Modul 0, Pemecahan Masalah)."
   fi
-  kill $PID_TALKER 2>/dev/null; wait $PID_TALKER 2>/dev/null
+  # Hentikan talker beserta proses anaknya (ros2 run menjalankan talker sebagai child).
+  pkill -INT -P $PID_TALKER 2>/dev/null; kill -INT $PID_TALKER 2>/dev/null
+  wait $PID_TALKER 2>/dev/null
 fi
 
 echo
