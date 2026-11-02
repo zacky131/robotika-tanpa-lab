@@ -1,0 +1,167 @@
+\documentclass{rtl}
+\title{ROS2 \& Robotika Otonom dari Nol}
+\subtitle{Silabus kursus berbasis simulasi --- cukup laptop biasa}
+\doctype{Silabus Kursus}
+\date{Versi 0.1 · November 2026}
+
+\begin{document}
+\makeheader
+
+\begin{sorotan}[title={Ringkasan kursus}]
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+\textbf{Untuk siapa} & Mahasiswa teknik, anggota tim robot, guru/pelajar SMK, dan pembelajar mandiri yang ingin masuk ke robotika otonom. \\
+\textbf{Prasyarat} & Bisa memakai komputer dan pernah menulis program sederhana (bahasa apa saja). Linux dan Python diajarkan dari awal. \\
+\textbf{Perangkat} & Laptop RAM 8\,GB (disarankan 16\,GB), Ubuntu 24.04 atau Windows + WSL2. Tanpa GPU khusus, tanpa robot fisik. \\
+\textbf{Perangkat lunak} & ROS~2 Jazzy (LTS), Gazebo Harmonic, RViz2, Python (\texttt{rclpy}), OpenCV, Nav2, slam\_toolbox. Webots sebagai alternatif untuk laptop yang lebih lemah. \\
+\textbf{Durasi} & 12 modul + proyek akhir, $\pm$\,40 jam belajar (video, latihan, kuis). \\
+\textbf{Hasil} & Portofolio GitHub berisi paket ROS~2 dan robot otonom simulasi yang bisa memetakan, bernavigasi, dan mengenali objek. \\
+\end{tabularx}
+\end{sorotan}
+
+\section*{Filosofi: simulasi dulu, hardware kemudian}
+Robot sungguhan mahal, mudah rusak, dan jumlahnya terbatas --- akibatnya kebanyakan
+mahasiswa hanya ``menonton'' satu-dua orang yang memegang robot. Di kursus ini setiap
+peserta punya robotnya sendiri di dalam simulator. Konsep dan kode yang dipakai
+(ROS~2, TF, Nav2, OpenCV) sama persis dengan yang dipakai di robot fisik, sehingga
+mudah dipindahkan ke hardware nanti.
+
+\section*{Tujuan pembelajaran umum}
+Setelah menyelesaikan kursus, peserta mampu:
+\begin{enumerate}
+  \item Menyiapkan lingkungan kerja ROS~2 dan bekerja nyaman di terminal Linux.
+  \item Merancang sistem robot sebagai kumpulan \emph{node} yang berkomunikasi lewat topic, service, dan action.
+  \item Membuat paket ROS~2 dengan Python, lengkap dengan parameter dan file launch.
+  \item Memodelkan robot (URDF/xacro), memahami kerangka koordinat (TF2), dan mensimulasikannya di Gazebo.
+  \item Mengolah data sensor (LiDAR, kamera, IMU) dan menulis pengendali sederhana.
+  \item Menerapkan computer vision dasar untuk mendeteksi objek dan penanda.
+  \item Membangun peta (SLAM) dan menjalankan navigasi otonom dengan Nav2.
+  \item Mendokumentasikan dan mempublikasikan proyek robotika di GitHub.
+\end{enumerate}
+
+\section*{Rincian modul}
+
+\newcommand{\modul}[5]{%
+  \subsection*{#1}
+  {\small\color{rtlgray}Estimasi: #2}\par
+  \textbf{Tujuan:} #3\par
+  \textbf{Materi:} #4\par
+  \textbf{Latihan simulasi:} #5\par}
+
+\modul{Modul 0 --- Persiapan Lab di Laptopmu}{2 jam}
+{Peserta memiliki lingkungan ROS~2 yang berjalan dan bisa memverifikasinya sendiri.}
+{Pilihan instalasi (Ubuntu native, dual boot, WSL2 di Windows, Docker); instalasi ROS~2 Jazzy dan Gazebo Harmonic; tips laptop RAM 8\,GB; pemecahan masalah umum.}
+{Menjalankan demo \texttt{talker}/\texttt{listener} dan membuka Gazebo dengan robot contoh. Lulus jika tangkapan layar ``cek kesehatan'' sudah hijau semua.}
+
+\modul{Modul 1 --- Linux \& Python Secukupnya untuk Robotika}{3 jam}
+{Peserta lancar memakai terminal dan menulis skrip Python yang rapi.}
+{Navigasi berkas, izin, variabel lingkungan, \texttt{bash}; Git dasar; Python: fungsi, kelas, modul, \texttt{pip}/\texttt{venv}; membaca pesan error.}
+{Skrip Python yang membaca berkas log sensor (CSV) dan menghitung rata-rata/maksimum; diunggah ke repo GitHub pribadi.}
+
+\modul{Modul 2 --- Konsep Inti ROS~2: Node \& Topic}{3 jam}
+{Peserta memahami arsitektur ROS~2 dan membuat publisher/subscriber sendiri.}
+{Graph ROS~2, DDS secara singkat, node, topic, tipe pesan, QoS dasar; alat CLI (\texttt{ros2 topic}, \texttt{rqt\_graph}); turtlesim.}
+{Mengendalikan turtlesim dengan node Python: menggambar persegi, lalu spiral; node kedua memantau posisi kura-kura.}
+
+\modul{Modul 3 --- Service, Action, Parameter \& Launch}{3 jam}
+{Peserta memilih pola komunikasi yang tepat dan menjalankan banyak node sekaligus.}
+{Service vs action vs topic; parameter dan file YAML; file launch Python; namespace dan remapping.}
+{Service ``reset arena'', action ``pergi ke titik'' dengan umpan balik progres, dan satu file launch yang menjalankan semuanya dengan parameter berbeda.}
+
+\modul{Modul 4 --- Workspace \& Paket ROS~2 yang Rapi}{3 jam}
+{Peserta membuat paket yang bisa dibangun, diuji, dan dipakai ulang orang lain.}
+{Struktur workspace, \texttt{colcon build}, \texttt{package.xml}/\texttt{setup.py}, pesan kustom, pengujian sederhana, konvensi penamaan.}
+{Paket \texttt{robot\_saya} dengan pesan kustom \texttt{StatusBaterai}, node simulator baterai, dan node peringatan.}
+
+\modul{Modul 5 --- Model Robot: URDF, TF2 \& RViz}{4 jam}
+{Peserta memodelkan robot beroda dan memahami hubungan antar kerangka koordinat.}
+{URDF dan xacro, link dan joint, \texttt{robot\_state\_publisher}, TF2 (\texttt{map}--\texttt{odom}--\texttt{base\_link}), visualisasi di RViz2.}
+{Merancang robot diferensial sendiri (ukuran, roda, sensor) dan memeriksa pohon TF-nya.}
+
+\modul{Modul 6 --- Simulasi di Gazebo}{4 jam}
+{Peserta menjalankan robotnya di dunia simulasi lengkap dengan sensor.}
+{Dunia SDF, plugin diff-drive, sensor LiDAR, kamera, IMU; \texttt{ros\_gz\_bridge}; waktu simulasi; menjaga simulasi tetap ringan di laptop.}
+{Membangun arena ``lorong kampus'', memasang LiDAR dan kamera, lalu menggerakkan robot dengan teleop keyboard.}
+
+\modul{Modul 7 --- Membaca Sensor \& Kontrol Gerak}{4 jam}
+{Peserta menulis perilaku otonom pertama berbasis data sensor.}
+{Odometri dan sumber galatnya; pengolahan LaserScan; kontrol P/PID; mesin keadaan (state machine) sederhana.}
+{Robot penghindar rintangan, lalu robot penyusur dinding (wall-following) dengan PID --- dinilai dari waktu tempuh dan jumlah tabrakan.}
+
+\modul{Modul 8 --- Computer Vision untuk Robot}{4 jam}
+{Peserta mengolah citra kamera robot untuk mengambil keputusan.}
+{\texttt{cv\_bridge}, OpenCV: ruang warna HSV, thresholding, kontur; penanda ArUco dan estimasi pose; pengenalan singkat deteksi objek berbasis model pralatih (CPU).}
+{Robot pengikut bola berwarna, lalu robot yang berhenti dan melapor saat melihat penanda ArUco tertentu.}
+
+\modul{Modul 9 --- SLAM: Membuat Peta}{3 jam}
+{Peserta membangun dan menyimpan peta lingkungan dari data LiDAR.}
+{Konsep SLAM, occupancy grid, \texttt{slam\_toolbox}, menyimpan dan memuat peta, kualitas peta dan penyebab kegagalan.}
+{Memetakan arena gudang simulasi dan membandingkan hasil dua strategi eksplorasi.}
+
+\modul{Modul 10 --- Navigasi Otonom dengan Nav2}{4 jam}
+{Peserta membuat robot bernavigasi sendiri ke tujuan di peta.}
+{Lokalisasi (AMCL), costmap, planner dan controller, behavior tree, waypoint following; menyetel parameter dasar.}
+{Robot mengunjungi 5 titik di gudang secara berurutan sambil menghindari rintangan yang muncul tiba-tiba.}
+
+\modul{Modul 11 (Bonus) --- Sekilas Otonomi Drone dengan PX4}{3 jam}
+{Peserta memahami bagaimana ROS~2 terhubung ke autopilot drone.}
+{PX4 SITL dengan Gazebo, mode terbang, offboard control melalui ROS~2, keselamatan.\newline
+\emph{Catatan: modul ini paling berat secara komputasi; tersedia rekaman demo bagi laptop yang tidak kuat.}}
+{Lepas landas, terbang membentuk persegi, dan mendarat secara otonom di simulasi.}
+
+\section*{Proyek akhir: Robot Kurir Kampus}
+\begin{sorotan}[title={Brief proyek}]
+Sebuah robot beroda harus mengantar ``paket'' di gedung kampus simulasi.
+Robot memetakan gedung, lalu menerima daftar tujuan, bernavigasi ke tiap ruangan,
+mengenali penanda ArUco di pintu untuk memastikan ruangan yang benar, dan
+melaporkan status pengantaran ke sebuah topic. Rintangan dinamis (``orang lewat'')
+muncul secara acak.
+\end{sorotan}
+
+\textbf{Yang dikumpulkan:} repo GitHub (paket ROS~2 + file launch), README dengan
+cara menjalankan, video demo 2--3 menit, dan laporan singkat (1--2 halaman)
+tentang keputusan desain dan kendala.
+
+\begin{center}
+\begin{tabularx}{0.92\linewidth}{@{}X r@{}}
+\toprule
+\textbf{Kriteria penilaian} & \textbf{Bobot} \\
+\midrule
+Fungsi: semua tujuan tercapai, robot tidak menabrak & 35\% \\
+Persepsi: verifikasi ruangan dengan ArUco berjalan andal & 20\% \\
+Kualitas kode: struktur paket, parameter, launch, keterbacaan & 20\% \\
+Dokumentasi: README bisa diikuti orang lain dari nol & 15\% \\
+Presentasi: video demo dan penjelasan keputusan desain & 10\% \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Peserta yang lulus mendapat sertifikat penyelesaian, dan proyek terbaik ditampilkan
+di repo dan kanal publik program (dengan izin peserta).
+
+\section*{Format belajar}
+\begin{multicols}{2}
+\textbf{Kursus mandiri (evergreen)}
+\begin{itemize}
+  \item Video pendek 8--15 menit per topik
+  \item Kode latihan dan solusi di GitHub
+  \item Kuis singkat tiap modul
+  \item Forum tanya jawab komunitas
+\end{itemize}
+\columnbreak
+\textbf{Cohort live}
+\begin{itemize}
+  \item 5 minggu, 2 sesi live per minggu (malam hari WIB)
+  \item Kelas kecil 20--30 peserta
+  \item Review kode dan sesi tanya jawab
+  \item Presentasi proyek akhir di minggu terakhir
+\end{itemize}
+\end{multicols}
+
+\textbf{Pembagian cohort 5 minggu (usulan):}
+Minggu 1: Modul 0--2 \,·\,
+Minggu 2: Modul 3--5 \,·\,
+Minggu 3: Modul 6--7 \,·\,
+Minggu 4: Modul 8--10 \,·\,
+Minggu 5: Proyek akhir + Modul 11 (bonus).
+
+\end{document}

@@ -1,0 +1,44 @@
+name: Build PDFs
+
+# Manual-only for now: PDFs are built locally (scripts/build-pdf.sh) and
+# committed to /pdf. Run from the Actions tab if needed.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk texlive-latex-base texlive-latex-recommended \
+            texlive-latex-extra texlive-fonts-recommended lmodern
+
+      - name: Compile all .tex files
+        run: ./scripts/build-pdf.sh
+
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: pdf/
+
+      - name: Commit refreshed PDFs (main only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pdf/
+          if git diff --cached --quiet; then
+            echo "PDFs unchanged."
+          else
+            git commit -m "Build PDFs [skip ci]"
+            git push
+          fi
