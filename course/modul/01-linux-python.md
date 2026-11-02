@@ -44,11 +44,17 @@ Setelah modul ini kamu bisa:
 
 ### Izin berkas
 
+Skrip yang baru kamu buat belum bisa dijalankan langsung:
+
 ```bash
-ls -l cek_lab.sh
-# -rw-r--r--  → belum bisa dijalankan langsung
-chmod +x cek_lab.sh
-./cek_lab.sh
+echo 'echo "Halo robot!"' > halo.sh
+ls -l halo.sh
+# -rw-rw-r--  → tidak ada huruf x: belum bisa dijalankan
+./halo.sh          # Permission denied
+chmod +x halo.sh
+ls -l halo.sh
+# -rwxrwxr-x  → ada x: sekarang bisa
+./halo.sh
 ```
 
 `chmod +x` memberi izin *execute*. Kamu akan sering melakukannya untuk skrip robot.
@@ -83,6 +89,7 @@ apt search opencv                  # cari paket
 1. Paket apt bila tersedia: `sudo apt install python3-numpy python3-opencv`
 2. Jika tidak ada di apt, buat *virtual environment* yang tetap bisa melihat paket ROS 2:
    ```bash
+   sudo apt install -y python3-venv
    python3 -m venv --system-site-packages ~/venv_robot
    source ~/venv_robot/bin/activate
    pip install nama-paket

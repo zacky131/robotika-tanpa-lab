@@ -10,8 +10,8 @@ Cara menjalankan (tanpa perlu dimasukkan ke paket):
 """
 import math
 
-import rclpy
 from geometry_msgs.msg import Twist
+import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from turtlesim.msg import Pose

@@ -1,4 +1,5 @@
-"""Modul 2 — Menggambar spiral dengan turtlesim.
+"""
+Modul 2 — Menggambar spiral dengan turtlesim.
 
 Kecepatan belok dibuat tetap, sedangkan kecepatan maju bertambah sedikit demi
 sedikit. Hasilnya: lingkaran yang makin lama makin besar (spiral).
@@ -7,8 +8,8 @@ Jalankan:
     ros2 run turtlesim turtlesim_node
     ros2 run rtl_dasar kura_spiral
 """
-import rclpy
 from geometry_msgs.msg import Twist
+import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 

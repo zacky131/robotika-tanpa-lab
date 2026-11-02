@@ -68,6 +68,20 @@ ros2 topic pub --rate 1 /turtle1/cmd_vel geometry_msgs/msg/Twist \
 Kura-kura berputar membentuk lingkaran. Ini bukti bahwa teleop pun hanyalah
 *publisher* ke `/turtle1/cmd_vel`.
 
+### Remap — mengganti nama topic tanpa mengubah kode
+
+Nama topic sebuah node bisa diganti saat dijalankan dengan `-r nama_lama:=nama_baru`.
+Munculkan kura-kura kedua, lalu kendalikan dengan teleop yang di-*remap*:
+
+```bash
+ros2 service call /spawn turtlesim/srv/Spawn "{x: 2.0, y: 2.0, theta: 0.0, name: 'turtle2'}"
+ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/turtle2/cmd_vel
+```
+
+Teleop sekarang mengirim ke `/turtle2/cmd_vel`, dan `turtle1` diam. Remap sering dipakai
+untuk menyambungkan node buatan orang lain tanpa menyentuh kodenya — kamu akan memakainya
+di Latihan 02.
+
 Lihat gambaran sistemnya:
 
 ```bash
@@ -149,12 +163,14 @@ class PenerbitHalo(Node):
     def __init__(self):
         super().__init__('penerbit_halo')                              # 1. beri nama node
         self.penerbit = self.create_publisher(String, 'sapaan', 10)     # 2. buat publisher
+        self.hitungan = 0
         self.create_timer(1.0, self.kirim)                             # 3. panggil kirim() tiap 1 detik
 
     def kirim(self):
         pesan = String()
         pesan.data = f'Halo dari Lab Robotika Tanpa Lab! #{self.hitungan}'
         self.penerbit.publish(pesan)                                   # 4. kirim!
+        self.hitungan += 1
 ```
 
 Dan `pelanggan_halo.py`:

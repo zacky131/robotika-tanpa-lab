@@ -1,4 +1,5 @@
-"""Modul 2 — Subscriber pertama.
+"""
+Modul 2 — Subscriber pertama.
 
 Node ini mendengarkan topic `/sapaan` dan mencetak setiap pesan yang masuk.
 

@@ -79,6 +79,13 @@ fi
 # 6. Alat pengembangan
 command -v colcon >/dev/null 2>&1 && ok "colcon" || gagal "colcon tidak ditemukan" "sudo apt install ros-dev-tools"
 command -v git    >/dev/null 2>&1 && ok "git"    || gagal "git tidak ditemukan" "sudo apt install git"
+# python3 harus Python sistem (Anaconda/conda atau Homebrew sering "membajak" perintah ini)
+if python3 -c "import rclpy" 2>/dev/null; then
+  ok "python3 bisa memakai rclpy ($(command -v python3))"
+else
+  gagal "python3 ($(command -v python3)) tidak bisa mengimpor rclpy" \
+        "Harus /usr/bin/python3. Untuk conda: conda deactivate (lihat Modul 0, Pemecahan Masalah)."
+fi
 python3 -c "import cv2" 2>/dev/null && ok "Python OpenCV" || awas "OpenCV untuk Python belum ada" "Dibutuhkan mulai Modul 8: sudo apt install python3-opencv"
 
 # 7. Uji komunikasi ROS 2 (talker -> listener)

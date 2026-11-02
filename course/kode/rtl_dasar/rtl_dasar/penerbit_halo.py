@@ -1,4 +1,5 @@
-"""Modul 2 — Publisher pertama.
+"""
+Modul 2 — Publisher pertama.
 
 Node ini mengirim pesan teks ke topic `/sapaan` setiap 1 detik.
 

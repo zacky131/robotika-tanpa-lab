@@ -184,6 +184,7 @@ Semua baris harus **[ OK ]**. Baris **[AWAS]** boleh dilewati dulu; baris **[GAG
 | `ros2: command not found` | `setup.bash` belum di-*source* | `source /opt/ros/jazzy/setup.bash`, lalu cek `~/.bashrc` |
 | `Unable to locate package ros-jazzy-desktop` | Bukan Ubuntu 24.04, atau sumber paket belum ditambahkan | Cek versi: `lsb_release -a`; ulangi Langkah 3 |
 | Listener tidak menerima pesan | Firewall atau jaringan kantor/kampus | `export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST` di kedua terminal |
+| `ModuleNotFoundError: No module named 'rclpy'` (atau `'yaml'`) saat menjalankan `python3 berkas.py` | Perintah `python3` mengarah ke Python lain (Anaconda/conda, Homebrew), bukan Python sistem | Cek `which python3` — harus `/usr/bin/python3`. Untuk conda: `conda deactivate` dan `conda config --set auto_activate_base false` |
 | Gazebo hitam / langsung tertutup (WSL2) | Masalah akselerasi grafis | `export LIBGL_ALWAYS_SOFTWARE=1` lalu jalankan ulang |
 | Gazebo sangat lambat | RAM/CPU terbatas | Lihat "Tips laptop RAM 8 GB" |
 | Pesan error lain | — | Salin **seluruh** pesan error ke forum kursus, sertakan hasil `cek_lab.sh` |

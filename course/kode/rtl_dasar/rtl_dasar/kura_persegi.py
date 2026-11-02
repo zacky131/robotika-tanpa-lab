@@ -1,4 +1,5 @@
-"""Modul 2 — Menggambar persegi dengan turtlesim (kendali loop terbuka).
+"""
+Modul 2 — Menggambar persegi dengan turtlesim (kendali loop terbuka).
 
 Kura-kura maju selama waktu tertentu, lalu berbelok 90 derajat, diulang 4 kali.
 Ini disebut *loop terbuka*: robot tidak mengecek posisinya sendiri, hanya
@@ -13,8 +14,8 @@ Ubah ukuran persegi lewat parameter:
 """
 import math
 
-import rclpy
 from geometry_msgs.msg import Twist
+import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 

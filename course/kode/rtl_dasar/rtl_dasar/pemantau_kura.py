@@ -1,4 +1,5 @@
-"""Modul 2 — Memantau posisi kura-kura.
+"""
+Modul 2 — Memantau posisi kura-kura.
 
 Node ini berlangganan topic `/turtle1/pose`, mencetak posisi setiap 1 detik,
 dan memberi peringatan jika kura-kura terlalu dekat ke dinding arena.
