@@ -58,6 +58,10 @@ Dokumen baru cukup diawali:
 Modul 3–11, proyek akhir "Robot Kurir Kampus", dan materi bootcamp tersedia untuk
 peserta terdaftar. Hubungi kontak di bawah untuk info pendaftaran.
 
+## Lisensi
+
+Kode: MIT (`LICENSE`). Materi pelajaran dan PDF: CC BY-NC 4.0 (`LICENSE-CONTENT.md`).
+
 ## Kontak
 
 zacky.asyari1986@gmail.com

@@ -22,3 +22,4 @@ This repo holds the README, syllabus, Modul 0–2 with exercises and solutions,
 - Ask before big decisions (naming, tools, licenses) and before anything destructive
   (force-push, deleting files).
 - After each deliverable: commit, push, and summarise the change in 1–2 lines.
+- Licenses: MIT for code (`LICENSE`), CC BY-NC 4.0 for lesson text/PDFs (`LICENSE-CONTENT.md`).
