@@ -118,7 +118,7 @@ cd ~/ros2_ws/src
 Kamu bisa membuat paket baru dengan:
 
 ```bash
-ros2 pkg create --build-type ament_python --dependencies rclpy std_msgs nama_paket
+ros2 pkg create nama_paket --build-type ament_python --dependencies rclpy std_msgs
 ```
 
 Untuk kursus ini, paket contoh **`rtl_dasar`** sudah tersedia di repo. Hubungkan ke workspace-mu:

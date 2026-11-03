@@ -26,8 +26,8 @@ Apakah galatnya selalu sama? Apakah makin besar untuk persegi yang lebih besar? 
 **3. Node buatanmu: segitiga (30 menit).** Buat paketmu sendiri:
 ```bash
 cd ~/ros2_ws/src
-ros2 pkg create --build-type ament_python --license MIT \
-  --dependencies rclpy geometry_msgs turtlesim kura_saya
+ros2 pkg create kura_saya --build-type ament_python --license MIT \
+  --dependencies rclpy geometry_msgs turtlesim
 ```
 Buat node `kura_segitiga` di `kura_saya/kura_saya/` (boleh menyalin `kura_persegi.py` sebagai
 titik awal). Sudut belok segitiga sama sisi = 120° (2π/3 rad). Daftarkan di `setup.py` pada

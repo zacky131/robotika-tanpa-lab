@@ -11,8 +11,9 @@ This repo holds the README, syllabus, Modul 0–2 with exercises and solutions,
 - This repo is public: keep it to free course material only. **No prices, no business,
   sales or planning documents.** Use `\tbd{harga}` in LaTeX and "TBD" in Markdown where a
   price would appear.
-- Before every push: `git grep -nE 'Rp|[0-9]{1,3}(\.[0-9]{3}){2,}'` must return nothing
-  relevant — stop and ask if it does.
+- Before every push: `git grep -InE 'Rp|[0-9]{1,3}(\.[0-9]{3}){2,}'` (text files) and the same
+  pattern over `pdftotext` output of every committed PDF must return nothing relevant — stop
+  and ask if they do. (Plain `git grep` without `-I` falsely matches compressed PDF bytes.)
 - `latex/rtl.cls` and `scripts/build-pdf.sh` here are the **source of truth** for the
   template; other repos copy them (no submodules).
 - All documents use `latex/rtl.cls`; build with `./scripts/build-pdf.sh` (outputs to `pdf/`).
